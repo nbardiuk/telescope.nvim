@@ -96,10 +96,10 @@ function Sorter:_start(prompt)
   local len_previous = #previous
 
   if #prompt < len_previous then
-    log.debug "Reset discard because shorter prompt"
+    log.trace("Reset discard because shorter prompt")
     self._discard_state.filtered = {}
   elseif string.sub(prompt, 1, len_previous) ~= previous then
-    log.debug "Reset discard no match"
+    log.trace("Reset discard no match")
     self._discard_state.filtered = {}
   end
 
@@ -462,6 +462,9 @@ sorters.get_fzy_sorter = function(opts)
   }
 end
 
+-- TODO: Could probably do something nice where we check their conf
+--          and choose their default for this.
+--          But I think `fzy` is good default for now.
 sorters.highlighter_only = function(opts)
   opts = opts or {}
   local fzy = opts.fzy_mod or require "telescope.algos.fzy"

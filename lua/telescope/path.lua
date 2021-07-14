@@ -48,6 +48,8 @@ path.shorten = (function()
 end)()
 
 path.normalize = function(filepath, cwd)
+  if true then return filepath end
+
   filepath = path.make_relative(filepath, cwd)
 
   -- Substitute home directory w/ "~"
