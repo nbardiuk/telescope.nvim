@@ -155,7 +155,11 @@ function EntryManager:add_entry(picker, score, entry)
     info.looped = info.looped + 1
 
     if container[2] > score then
-      -- print("Inserting: ", picker, index, node, new_container)
+      return self:_insert_container_before(picker, index, node, new_container)
+    end
+
+    if score < 1 and container[2] == score and #entry.ordinal < #container[1].ordinal then
+      log.info "Choosing shorter val"
       return self:_insert_container_before(picker, index, node, new_container)
     end
 
