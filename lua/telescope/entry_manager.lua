@@ -176,7 +176,10 @@ end
 function EntryManager:iter()
   local iterator = self.linked_states:iter()
   return function()
-    return iterator()
+    local val = iterator()
+    if val then
+      return val[1]
+    end
   end
 end
 

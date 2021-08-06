@@ -784,9 +784,7 @@ function Picker:set_selection(row)
     end
 
     local caret = self.selection_caret
-    -- local display = string.format('%s %s', caret,
-    --   (a.nvim_buf_get_lines(results_bufnr, row, row + 1, false)[1] or ''):sub(3)
-    -- )
+
     local display, display_highlights = entry_display.resolve(self, entry)
     display = caret .. display
 

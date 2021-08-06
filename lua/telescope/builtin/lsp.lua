@@ -328,7 +328,7 @@ lsp.dynamic_workspace_symbols = function(opts)
       fn = get_workspace_symbols_requester(curr_bufnr),
     },
     previewer = conf.qflist_previewer(opts),
-    sorter = conf.generic_sorter(),
+    sorter = conf.generic_sorter(opts),
   }):find()
 end
 
