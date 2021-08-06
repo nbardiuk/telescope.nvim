@@ -366,6 +366,7 @@ function Picker:find()
 
     -- Do filetype last, so that users can register at the last second.
     pcall(a.nvim_buf_set_option, prompt_bufnr, "filetype", "TelescopePrompt")
+    pcall(a.nvim_buf_set_option, results_bufnr, "filetype", "TelescopeResults")
 
     -- TODO(async): I wonder if this should actually happen _before_ we nvim_buf_attach.
     -- This way the buffer would always start with what we think it should when we start the loop.
