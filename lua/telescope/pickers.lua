@@ -1030,8 +1030,7 @@ function Picker:get_result_processor(find_id, prompt, status_updater)
 end
 
 function Picker:get_result_completor(results_bufnr, find_id, prompt, status_updater)
-  return function()
-    await_schedule()
+  return vim.schedule_wrap(function()
     if self.closed == true or self:is_done() then
       return
     end
@@ -1048,7 +1047,7 @@ function Picker:get_result_completor(results_bufnr, find_id, prompt, status_upda
     self:_on_complete()
 
     self._result_completed = true
-  end
+  end)
 end
 
 function Picker:_do_selection(prompt)
