@@ -66,7 +66,6 @@ function JobFinder:_find(prompt, process_result, process_complete)
   end
 
   local on_output = function(_, line, _)
-    print("LINE:", line)
     if not line or line == "" then
       return
     end

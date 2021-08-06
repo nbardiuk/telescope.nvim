@@ -20,8 +20,6 @@ return function(opts)
       args = command_list,
     }
 
-    TelescopeLastGrep = res
-
     return res
   end
 

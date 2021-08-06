@@ -1,4 +1,3 @@
-local conf = require("telescope.config").values
 local channel = require("plenary.async.control").channel
 
 local action_state = require "telescope.actions.state"
