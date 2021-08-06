@@ -159,7 +159,6 @@ function EntryManager:add_entry(picker, score, entry)
     end
 
     if score < 1 and container[2] == score and #entry.ordinal < #container[1].ordinal then
-      log.info "Choosing shorter val"
       return self:_insert_container_before(picker, index, node, new_container)
     end
 
