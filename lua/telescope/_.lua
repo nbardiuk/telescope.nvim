@@ -68,7 +68,6 @@ M.spawn = function(opts)
 
   return self
 end
-local uv = vim.loop
 
 ---@class uv_pipe_t
 --- A pipe handle from libuv
