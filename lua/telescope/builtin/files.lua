@@ -16,17 +16,17 @@ local os_sep = Path.path.sep
 local flatten = vim.tbl_flatten
 local filter = vim.tbl_filter
 
-local action_set = require('telescope.actions.set')
-local action_state = require('telescope.actions.state')
-local actions = require('telescope.actions')
-local conf = require('telescope.config').values
-local finders = require('telescope.finders')
-local log = require('telescope.log')
-local make_entry = require('telescope.make_entry')
-local pickers = require('telescope.pickers')
-local previewers = require('telescope.previewers')
-local sorters = require('telescope.sorters')
-local utils = require('telescope.utils')
+local action_set = require "telescope.actions.set"
+local action_state = require "telescope.actions.state"
+local actions = require "telescope.actions"
+local conf = require("telescope.config").values
+local finders = require "telescope.finders"
+local log = require "telescope.log"
+local make_entry = require "telescope.make_entry"
+local pickers = require "telescope.pickers"
+local previewers = require "telescope.previewers"
+local sorters = require "telescope.sorters"
+local utils = require "telescope.utils"
 
 local files = {}
 

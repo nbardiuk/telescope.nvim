@@ -1,9 +1,9 @@
 local uv = vim.loop
 
-local Object = require("plenary.class")
-local log = require("plenary.log")
+local Object = require "plenary.class"
+local log = require "plenary.log"
 
-local async = require("plenary.async")
+local async = require "plenary.async"
 local channel = require("plenary.async").control.channel
 
 local M = {}
@@ -35,28 +35,36 @@ function AsyncJob.new(opts)
 end
 
 function AsyncJob:_for_each_pipe(f, ...)
-  for _, pipe in ipairs({self.stdin, self.stdout, self.stderr}) do
+  for _, pipe in ipairs { self.stdin, self.stdout, self.stderr } do
     f(pipe, ...)
   end
 end
 
 function AsyncJob:close(force)
-  if force == nil then force = true end
+  if force == nil then
+    force = true
+  end
 
-  self:_for_each_pipe(function(p) p:close(force) end)
+  self:_for_each_pipe(function(p)
+    p:close(force)
+  end)
   if not self.handle:is_closing() then
     self.handle:close()
   end
 
-  log.debug("[async_job] closed")
+  log.debug "[async_job] closed"
 end
 
 M.spawn = function(opts)
   local self = AsyncJob.new(opts)
 
-  self.handle = uv.spawn(self.command, self.uv_opts, async.void(function()
-    self:close(false)
-  end))
+  self.handle = uv.spawn(
+    self.command,
+    self.uv_opts,
+    async.void(function()
+      self:close(false)
+    end)
+  )
 
   return self
 end
@@ -81,7 +89,9 @@ function BasePipe:new()
 end
 
 function BasePipe:close(force)
-  if force == nil then force = true end
+  if force == nil then
+    force = true
+  end
 
   assert(self.handle, "Must have a pipe to close. Otherwise it's weird!")
 
@@ -102,7 +112,6 @@ function BasePipe:close(force)
 
   self._closed = true
 end
-
 
 ---@class LinesPipe : BasePipe
 local LinesPipe = BasePipe:extend()
@@ -144,7 +153,7 @@ function LinesPipe:iter(schedule)
       return
     end
 
-    return (previous or '') .. (read or '')
+    return (previous or "") .. (read or "")
   end
 
   local next_value = nil
@@ -176,7 +185,6 @@ function LinesPipe:iter(schedule)
     return next_value()
   end
 end
-
 
 ---@class NullPipe : BasePipe
 local NullPipe = BasePipe:extend()
@@ -253,7 +261,7 @@ M.ErrorPipe = ErrorPipe
 
 M.convert_opts = function(o)
   if not o then
-    error(debug.traceback("Options are required for Job:new"))
+    error(debug.traceback "Options are required for Job:new")
   end
 
   local command = o.command
@@ -261,22 +269,22 @@ M.convert_opts = function(o)
     if o[1] then
       command = o[1]
     else
-      error(debug.traceback("'command' is required for Job:new"))
+      error(debug.traceback "'command' is required for Job:new")
     end
   elseif o[1] then
-    error(debug.traceback("Cannot pass both 'command' and array args"))
+    error(debug.traceback "Cannot pass both 'command' and array args")
   end
 
   local args = o.args
   if not args then
     if #o > 1 then
-      args = {select(2, unpack(o))}
+      args = { select(2, unpack(o)) }
     end
   end
 
   local ok, is_exe = pcall(vim.fn.executable, command)
   if not o.skip_validation and ok and 1 ~= is_exe then
-    error(debug.traceback(command..": Executable not found"))
+    error(debug.traceback(command .. ": Executable not found"))
   end
 
   local obj = {}

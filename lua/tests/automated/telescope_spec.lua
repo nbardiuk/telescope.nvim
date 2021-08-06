@@ -10,14 +10,18 @@ describe("telescope", function()
       end)
     end)
 
-    describe('attach_mappings', function()
+    describe("attach_mappings", function()
       local new_picker = function(a, b)
         a.finder = true
         return picker.new(a, b)
       end
 
-      it('should allow for passing in a function', function()
-        local p = new_picker({}, { attach_mappings = function() return 1 end })
+      it("should allow for passing in a function", function()
+        local p = new_picker({}, {
+          attach_mappings = function()
+            return 1
+          end,
+        })
         eq(1, p.attach_mappings())
       end)
 

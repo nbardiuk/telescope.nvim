@@ -1,15 +1,15 @@
 local conf = require("telescope.config").values
-local channel = require('plenary.async.control').channel
+local channel = require("plenary.async.control").channel
 
-local action_state = require('telescope.actions.state')
-local actions = require('telescope.actions')
-local conf = require('telescope.config').values
-local entry_display = require('telescope.pickers.entry_display')
-local finders = require('telescope.finders')
-local make_entry = require('telescope.make_entry')
-local pickers = require('telescope.pickers')
-local strings = require('plenary.strings')
-local utils = require('telescope.utils')
+local action_state = require "telescope.actions.state"
+local actions = require "telescope.actions"
+local conf = require("telescope.config").values
+local entry_display = require "telescope.pickers.entry_display"
+local finders = require "telescope.finders"
+local make_entry = require "telescope.make_entry"
+local pickers = require "telescope.pickers"
+local strings = require "plenary.strings"
+local utils = require "telescope.utils"
 
 local lsp = {}
 

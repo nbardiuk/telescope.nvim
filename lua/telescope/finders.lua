@@ -1,11 +1,11 @@
 local Job = require "plenary.job"
 
-local make_entry = require('telescope.make_entry')
-local log = require('telescope.log')
+local make_entry = require "telescope.make_entry"
+local log = require "telescope.log"
 
-local async_static_finder = require('telescope.finders.async_static_finder')
-local async_oneshot_finder = require('telescope.finders.async_oneshot_finder')
-local async_job_finder = require('telescope.finders.async_job_finder')
+local async_static_finder = require "telescope.finders.async_static_finder"
+local async_oneshot_finder = require "telescope.finders.async_oneshot_finder"
+local async_job_finder = require "telescope.finders.async_job_finder"
 
 local finders = {}
 
@@ -133,7 +133,9 @@ function DynamicFinder:_find(prompt, process_result, process_complete)
   local results = self.fn(prompt)
 
   for _, result in ipairs(results) do
-    if process_result(self.entry_maker(result)) then return end
+    if process_result(self.entry_maker(result)) then
+      return
+    end
   end
 
   process_complete()

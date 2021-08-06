@@ -1,11 +1,11 @@
-require('telescope')
+require "telescope"
 
 local a = vim.api
 local popup = require "popup"
 
-local async = require('plenary.async')
+local async = require "plenary.async"
 local await_schedule = async.util.scheduler
-local channel = require('plenary.async.control').channel
+local channel = require("plenary.async.control").channel
 
 local actions = require "telescope.actions"
 local action_set = require "telescope.actions.set"
@@ -74,7 +74,7 @@ function Picker:new(opts)
     _on_input_filter_cb = opts.on_input_filter_cb or function() end,
 
     finder = assert(opts.finder, "Finder is required."),
-    sorter = opts.sorter or require('telescope.sorters').empty(),
+    sorter = opts.sorter or require("telescope.sorters").empty(),
 
     all_previewers = opts.previewer,
     current_previewer_index = 1,
@@ -365,7 +365,7 @@ function Picker:find()
     self.sorter:_init()
 
     -- Do filetype last, so that users can register at the last second.
-    pcall(a.nvim_buf_set_option, prompt_bufnr, 'filetype', 'TelescopePrompt')
+    pcall(a.nvim_buf_set_option, prompt_bufnr, "filetype", "TelescopePrompt")
 
     -- TODO(async): I wonder if this should actually happen _before_ we nvim_buf_attach.
     -- This way the buffer would always start with what we think it should when we start the loop.
@@ -439,7 +439,9 @@ function Picker:find()
 
       tx.send(...)
     end,
-    on_detach = function() self:_detach() end,
+    on_detach = function()
+      self:_detach()
+    end,
   })
 
   -- TODO: Use WinLeave as well?
@@ -957,7 +959,9 @@ end
 
 function Picker:get_status_updater(prompt_win, prompt_bufnr)
   return function(opts)
-    if self.closed or not vim.api.nvim_buf_is_valid(prompt_bufnr) then return end
+    if self.closed or not vim.api.nvim_buf_is_valid(prompt_bufnr) then
+      return
+    end
 
     local current_prompt = self:_get_prompt()
     if not current_prompt then
@@ -971,15 +975,9 @@ function Picker:get_status_updater(prompt_win, prompt_bufnr)
     local text = self:get_status_text(opts)
     local prompt_len = #self.prompt_prefix + #current_prompt
 
-    local padding = string.rep(" ", vim.api.nvim_win_get_width(prompt_win) - prompt_len - #text )
+    local padding = string.rep(" ", vim.api.nvim_win_get_width(prompt_win) - prompt_len - #text)
     vim.api.nvim_buf_clear_namespace(prompt_bufnr, ns_telescope_prompt, 0, -1)
-    vim.api.nvim_buf_set_virtual_text(
-      prompt_bufnr,
-      ns_telescope_prompt,
-      0,
-      { {padding .. text, "NonText"} },
-      {}
-    )
+    vim.api.nvim_buf_set_virtual_text(prompt_bufnr, ns_telescope_prompt, 0, { { padding .. text, "NonText" } }, {})
 
     -- TODO: Wait for bfredl
     -- vim.api.nvim_buf_set_extmark(prompt_bufnr, ns_telescope_prompt, 0, 0, {
@@ -1035,11 +1033,13 @@ end
 function Picker:get_result_completor(results_bufnr, find_id, prompt, status_updater)
   return function()
     await_schedule()
-    if self.closed == true or self:is_done() then return end
+    if self.closed == true or self:is_done() then
+      return
+    end
 
     self:_do_selection()
 
-    state.set_global_key('current_line', self:_get_prompt())
+    state.set_global_key("current_line", self:_get_prompt())
     status_updater { completed = true }
 
     self:clear_extra_rows(results_bufnr)
@@ -1053,15 +1053,15 @@ function Picker:get_result_completor(results_bufnr, find_id, prompt, status_upda
 end
 
 function Picker:_do_selection()
-  local selection_strategy = self.selection_strategy or 'reset'
+  local selection_strategy = self.selection_strategy or "reset"
   -- TODO: Either: always leave one result or make sure we actually clean up the results when nothing matches
-  if selection_strategy == 'row' then
+  if selection_strategy == "row" then
     if self._selection_row == nil and self.default_selection_index ~= nil then
       self:set_selection(self:get_row(self.default_selection_index))
     else
       self:set_selection(self:get_selection_row())
     end
-  elseif selection_strategy == 'follow' then
+  elseif selection_strategy == "follow" then
     if self._selection_row == nil and self.default_selection_index ~= nil then
       self:set_selection(self:get_row(self.default_selection_index))
     else
@@ -1074,20 +1074,20 @@ function Picker:_do_selection()
         self:set_selection(self:get_reset_row())
       end
     end
-  elseif selection_strategy == 'reset' then
+  elseif selection_strategy == "reset" then
     if self.default_selection_index ~= nil then
       self:set_selection(self:get_row(self.default_selection_index))
     else
       self:set_selection(self:get_reset_row())
     end
-  elseif selection_strategy == 'closest' then
+  elseif selection_strategy == "closest" then
     if prompt == "" and self.default_selection_index ~= nil then
       self:set_selection(self:get_row(self.default_selection_index))
     else
       self:set_selection(self:get_reset_row())
     end
   else
-    error('Unknown selection strategy: ' .. selection_strategy)
+    error("Unknown selection strategy: " .. selection_strategy)
   end
 end
 

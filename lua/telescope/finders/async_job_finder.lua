@@ -1,8 +1,8 @@
-local async_job = require('telescope._')
-local LinesPipe = require('telescope._').LinesPipe
+local async_job = require "telescope._"
+local LinesPipe = require("telescope._").LinesPipe
 
-local make_entry = require('telescope.make_entry')
-local log = require('telescope.log')
+local make_entry = require "telescope.make_entry"
+local log = require "telescope.log"
 
 return function(opts)
   log.trace("Creating async_job:", opts)
@@ -33,7 +33,9 @@ return function(opts)
     end
 
     local job_opts = fn_command(prompt)
-    if not job_opts then return end
+    if not job_opts then
+      return
+    end
 
     local writer = nil
     -- if job_opts.writer and Job.is_job(job_opts.writer) then
@@ -63,7 +65,7 @@ return function(opts)
   end
 
   return setmetatable({
-    close = function() 
+    close = function()
       if job then
         job:close(true)
       end
