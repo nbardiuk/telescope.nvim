@@ -1038,7 +1038,7 @@ function Picker:get_result_completor(results_bufnr, find_id, prompt, status_upda
       return
     end
 
-    self:_do_selection()
+    self:_do_selection(prompt)
 
     state.set_global_key("current_line", self:_get_prompt())
     status_updater { completed = true }
@@ -1053,7 +1053,7 @@ function Picker:get_result_completor(results_bufnr, find_id, prompt, status_upda
   end
 end
 
-function Picker:_do_selection()
+function Picker:_do_selection(prompt)
   local selection_strategy = self.selection_strategy or "reset"
   -- TODO: Either: always leave one result or make sure we actually clean up the results when nothing matches
   if selection_strategy == "row" then
